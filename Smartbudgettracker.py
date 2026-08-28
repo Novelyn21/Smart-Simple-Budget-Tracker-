@@ -12,11 +12,11 @@ remaining_balance = monthly_budget
 expenses = []
 
 while True: 
-    print("----Simple Monthly Budget----") 
+    print("--------Simple Monthly Budget--------") 
     print("1. Add Expenses") 
     print("2. See Summary") 
     print("3. Exit") 
-    print("-----------------------------") 
+    print("-------------------------------------") 
     
     choice = input("Enter your choice: ") 
     
@@ -51,15 +51,23 @@ while True:
             print("Warning: You've used 50% or more of your monthly budget!") 
             
     elif choice == "2": 
-        print("---------Summary---------") 
+        print("-------------Summary--------------") 
         total_expense = sum(item['cost'] for item in expenses) 
         
         if not expenses: 
             print("No expenses recorded!") 
-        else: 
+        else:
+            category_totals = {}
+            for item in expenses:
+                cat = item['category']
+                category_totals[cat] = category_totals.get(cat, 0) + item['cost']
+
             for item in expenses: 
                 print(f"- {item['category']}: ₱{item['cost']:.2f}") 
-            print("-------------------------")
+            print("-------------------------------------")
+            
+            most_expensive_category, most_expensive_cost = max(category_totals.items(), key=lambda x: x[1])
+            print(f"Most Expensive Category: {most_expensive_category} (₱{most_expensive_cost:.2f})")
             print(f"Total Spent: ₱{total_expense:.2f}")
             print(f"Remaining Balance: ₱{remaining_balance:.2f}") 
             
